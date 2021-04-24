@@ -13,10 +13,12 @@ struct DetailView: View {
     var body: some View {
         List {
             Section(header: Text("Chord Sequence Info")) {
-                Label("Start Timer", systemImage: "timer")
-                    .font(.headline)
-                    .foregroundColor(.accentColor)
-                    .accessibilityLabel(Text("Start timer"))
+                NavigationLink(destination: TrainingView()) {
+                    Label("Start Timer", systemImage: "timer")
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                        .accessibilityLabel(Text("Start timer"))
+                }
                 HStack {
                     Label("Length", systemImage: "clock")
                         .accessibilityLabel(Text("Practice length"))
@@ -40,6 +42,7 @@ struct DetailView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
+        .navigationTitle(sequence.chordSequenceName)
     }
 }
 

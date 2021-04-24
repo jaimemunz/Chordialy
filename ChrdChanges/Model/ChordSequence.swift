@@ -33,3 +33,16 @@ extension ChordSequence {
         ]
     }
 }
+
+extension ChordSequence {
+    struct Data {
+        var chordSequenceName: String = ""
+        var chordSequenceMembers: [String] = []
+        var lengthInMinutes: Double = 5.0
+        var color: Color = .random
+    }
+    
+    var data: Data {
+        return Data(chordSequenceName: chordSequenceName, chordSequenceMembers: chordSequenceMembers, lengthInMinutes: Double(lengthInMinutes), color: color)
+    }
+}
