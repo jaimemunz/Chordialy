@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ChordSequencesView: View {
-    let sequences: [ChordSequence]
+    @Binding var sequences: [ChordSequence]
     
     var body: some View {
         List {
             ForEach(sequences) { sequence in
-                NavigationLink(destination: DetailView(sequence: sequence)) {
+                NavigationLink(destination: DetailView(sequence: binding(for: sequence))) {
                     CardView(chordSequence: sequence)
                 }
                 .listRowBackground(sequence.color)
@@ -24,12 +24,19 @@ struct ChordSequencesView: View {
             Image(systemName: "plus")
         })
     }
+    
+    private func binding(for sequence: ChordSequence) -> Binding<ChordSequence> {
+        guard let sequenceIndex = sequences.firstIndex(where: { $0.id == sequence.id }) else {
+            fatalError("Can't find sequence in array")
+        }
+        return $sequences[sequenceIndex]
+    }
 }
 
 struct ChordPairsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ChordSequencesView(sequences: ChordSequence.data)
+            ChordSequencesView(sequences: .constant(ChordSequence.data))
         }
     }
 }

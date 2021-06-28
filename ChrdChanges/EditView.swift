@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditView: View {
-    @State private var chordSequenceData: ChordSequence.Data = ChordSequence.Data()
+    @Binding var chordSequenceData: ChordSequence.Data
     @State private var newChordMember = ""
     var body: some View {
         List {
@@ -54,6 +54,6 @@ struct EditView: View {
 
 struct EditView_Previews: PreviewProvider {
     static var previews: some View {
-        EditView()
+        EditView(chordSequenceData: .constant(ChordSequence.data[0].data))
     }
 }

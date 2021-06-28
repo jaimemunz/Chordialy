@@ -45,4 +45,11 @@ extension ChordSequence {
     var data: Data {
         return Data(chordSequenceName: chordSequenceName, chordSequenceMembers: chordSequenceMembers, lengthInMinutes: Double(lengthInMinutes), color: color)
     }
+    
+    mutating func update(from data: Data) {
+        chordSequenceName = data.chordSequenceName
+        chordSequenceMembers = data.chordSequenceMembers
+        lengthInMinutes = Int(data.lengthInMinutes)
+        color = data.color
+    }
 }

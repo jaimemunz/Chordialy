@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DetailView: View {
-    let sequence: ChordSequence
-    
+    @Binding var sequence: ChordSequence
+    @State private var data: ChordSequence.Data = ChordSequence.Data()
+    @State private var isPresented = false
     var body: some View {
         List {
             Section(header: Text("Chord Sequence Info")) {
@@ -42,14 +43,30 @@ struct DetailView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
+        .navigationBarItems(trailing: Button("Edit") {
+            isPresented = true
+            data = sequence.data
+        })
         .navigationTitle(sequence.chordSequenceName)
+        .fullScreenCover(isPresented: $isPresented) {
+            NavigationView {
+                EditView(chordSequenceData: $data)
+                    .navigationTitle(sequence.chordSequenceName)
+                    .navigationBarItems(leading: Button("Cancel") {
+                        isPresented = false
+                    }, trailing: Button("Done") {
+                        isPresented = false
+                        sequence.update(from: data)
+                    })
+            }
+        }
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DetailView(sequence: ChordSequence.data[0])
+            DetailView(sequence: .constant(ChordSequence.data[0]))
         }
     }
 }
