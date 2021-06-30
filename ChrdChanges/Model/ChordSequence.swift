@@ -28,8 +28,8 @@ extension ChordSequence {
     static var data: [ChordSequence] {
         [
             ChordSequence(chordSequenceName: "AG", chordSequenceMembers: ["A","G"], lengthInMinutes: 1, color: Color("AG")),
-            ChordSequence(chordSequenceName: "EG", chordSequenceMembers: ["E","A"], lengthInMinutes: 1, color: Color("EA")),
-            ChordSequence(chordSequenceName: "DE", chordSequenceMembers: ["D","E"], lengthInMinutes: 1, color: Color("DE"))
+            ChordSequence(chordSequenceName: "EG", chordSequenceMembers: ["E","A"], lengthInMinutes: 4, color: Color("EA")),
+            ChordSequence(chordSequenceName: "DE", chordSequenceMembers: ["D","E"], lengthInMinutes: 4, color: Color("DE"))
         ]
     }
 }

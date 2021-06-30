@@ -8,41 +8,35 @@
 import SwiftUI
 
 struct TrainingView: View {
+    
+    @Binding var sequence: ChordSequence
+    @StateObject var trainingTimer = TrainingTimer()
     var body: some View {
-        VStack {
-            ProgressView(value: 5, total: 60)
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Seconds Elapsed")
-                    Label("300", systemImage: "hourglass.bottomhalf.fill")
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text("Seconds Remaining")
-                        .font(.caption)
-                    Label("600", systemImage: "hourglass.tophalf.fill")
-                }
-            }
-            .accessibilityElement(children:.ignore)
-            .accessibilityLabel(Text("Time remaining"))
-            .accessibilityValue(Text("10 minutes"))
-            Circle()
-                .strokeBorder(lineWidth: 24, antialiased: true)
-            HStack {
-                Text("Chord 1 of 3")
-                Spacer()
-                Button(action:{}) {
-                    Image(systemName: "forward.fill")
-                }
-                .accessibilityLabel(Text("Next speaker"))
+        ZStack {
+            RoundedRectangle(cornerRadius: 16.0)
+                .fill(sequence.color)
+            VStack {
+                TrainingHeaderView(secondsElapsed: trainingTimer.secondsElapsed, secondsRemaining: trainingTimer.secondsRemaining, sequenceColor: sequence.color)
+                Circle()
+                    .strokeBorder(lineWidth: 24, antialiased: true)
+                TrainingFooterView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord, skipAction: trainingTimer.skipChord)
             }
         }
         .padding()
+        .foregroundColor(sequence.color.accessibleFontColor)
+        .onAppear {
+            trainingTimer.reset(lengthInMinutes: sequence.lengthInMinutes, chordSequenceMembers: sequence.chordSequenceMembers)
+            trainingTimer.startTraining()
+        }
+        .onDisappear {
+            //print("ContentView disappeared!")
+            trainingTimer.stopTraining()
+        }
     }
 }
 
 struct TrainingView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingView()
+        TrainingView(sequence: .constant(ChordSequence.data[0]))
     }
 }

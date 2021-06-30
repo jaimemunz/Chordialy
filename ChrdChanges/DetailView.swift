@@ -14,7 +14,7 @@ struct DetailView: View {
     var body: some View {
         List {
             Section(header: Text("Chord Sequence Info")) {
-                NavigationLink(destination: TrainingView()) {
+                NavigationLink(destination: TrainingView(sequence: $sequence)) {
                     Label("Start Timer", systemImage: "timer")
                         .font(.headline)
                         .foregroundColor(.accentColor)

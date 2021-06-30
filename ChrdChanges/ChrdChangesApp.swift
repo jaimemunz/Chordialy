@@ -13,7 +13,7 @@ struct ChrdChangesApp: App {
         WindowGroup {
             NavigationView {
                 ChordSequencesView(sequences: $sequences)
-            }
+            }.navigationViewStyle(StackNavigationViewStyle()) // needed to suppress warning
         }
     }
 }
