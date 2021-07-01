@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct TrainingView: View {
-    
     @Binding var sequence: ChordSequence
     @StateObject var trainingTimer = TrainingTimer()
+    var player: AVPlayer { AVPlayer.sharedDingPlayer }
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16.0)
@@ -26,10 +27,15 @@ struct TrainingView: View {
         .foregroundColor(sequence.color.accessibleFontColor)
         .onAppear {
             trainingTimer.reset(lengthInMinutes: sequence.lengthInMinutes, chordSequenceMembers: sequence.chordSequenceMembers)
+            trainingTimer.timerEndAction = {
+                player.seek(to: .zero)
+                player.play()
+            }
             trainingTimer.startTraining()
         }
         .onDisappear {
             //print("ContentView disappeared!")
+            print("OnDisappear")
             trainingTimer.stopTraining()
         }
     }

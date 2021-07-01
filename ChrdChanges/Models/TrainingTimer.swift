@@ -20,7 +20,7 @@ class TrainingTimer: ObservableObject {
     var chords: [Chord] = []
 
     var lengthInMinutes: Int
-    var chordChangedAction: (() -> Void)?
+    var timerEndAction: (() -> Void)?
 
     private var timer: Timer?
     private var timerStopped = false
@@ -43,9 +43,11 @@ class TrainingTimer: ObservableObject {
         activeChord = chordText
     }
     func startTraining() {
+        chordCount = 0
         changeToChord(at: 0)
     }
     func stopTraining() {
+        print("Stopped")
         timer?.invalidate()
         timer = nil
         timerStopped = true
@@ -72,14 +74,14 @@ class TrainingTimer: ObservableObject {
         if (chordCount == 0) {
             startDate = Date()
             secondsElapsed = Int(Date().timeIntervalSince1970 - startDate!.timeIntervalSince1970)
-        }
-        secondsRemaining = lengthInSeconds - secondsElapsed
-        timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: true) { [weak self] timer in
-            if let self = self, let startDate = self.startDate {
-                let secondsElapsed = Date().timeIntervalSince1970 - startDate.timeIntervalSince1970
-                self.update(secondsElapsed: Int(secondsElapsed))
+            timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: true) { [weak self] timer in
+                if let self = self, let startDate = self.startDate {
+                    let secondsElapsed = Date().timeIntervalSince1970 - startDate.timeIntervalSince1970
+                    self.update(secondsElapsed: Int(secondsElapsed))
+                }
             }
         }
+        secondsRemaining = lengthInSeconds - secondsElapsed
     }
 
     private func update(secondsElapsed: Int) {
@@ -89,6 +91,7 @@ class TrainingTimer: ObservableObject {
         if secondsRemaining == 0 {
             stopTraining()
             self.secondsElapsed = lengthInSeconds
+            timerEndAction?()
         } else {
             self.secondsElapsed = secondsElapsed
         }
