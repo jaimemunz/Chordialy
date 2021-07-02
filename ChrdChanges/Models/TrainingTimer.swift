@@ -43,7 +43,7 @@ class TrainingTimer: ObservableObject {
         activeChord = chordText
     }
     func startTraining() {
-        chordCount = 0
+        chordCount = -1
         changeToChord(at: 0)
     }
     func stopTraining() {
@@ -71,7 +71,7 @@ class TrainingTimer: ObservableObject {
             chordIndex = index
         }
         activeChord = chordText
-        if (chordCount == 0) {
+        if (chordCount < 0) {
             startDate = Date()
             secondsElapsed = Int(Date().timeIntervalSince1970 - startDate!.timeIntervalSince1970)
             timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: true) { [weak self] timer in
@@ -82,11 +82,11 @@ class TrainingTimer: ObservableObject {
             }
         }
         secondsRemaining = lengthInSeconds - secondsElapsed
+        chordCount = chordCount + 1
     }
 
     private func update(secondsElapsed: Int) {
         secondsRemaining = max(lengthInSeconds - secondsElapsed, 0)
-        chordCount = chordCount + 1
         print(secondsElapsed)
         if secondsRemaining == 0 {
             stopTraining()

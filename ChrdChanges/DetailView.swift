@@ -41,6 +41,18 @@ struct DetailView: View {
                         .accessibilityLabel(Text(chord))
                 }
             }
+            Section(header: Text("History")) {
+                if sequence.history.isEmpty {
+                    Label("No meetings yet", systemImage: "calendar.badge.exclamationmark")
+                }
+                ForEach(sequence.history) { history in
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text(history.date, style: .date)
+                        Text("Count: \(history.changeCount)")
+                    }
+                }
+            }
         }
         .listStyle(InsetGroupedListStyle())
         .navigationBarItems(trailing: Button("Edit") {

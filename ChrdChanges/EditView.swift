@@ -15,7 +15,7 @@ struct EditView: View {
             Section(header: Text("Training Info")) {
                 TextField("Sequence", text: $chordSequenceData.chordSequenceName)
                 HStack {
-                    Slider(value: $chordSequenceData.lengthInMinutes, in: 5...30, step: 1.0) {
+                    Slider(value: $chordSequenceData.lengthInMinutes, in: 1...30, step: 1.0) {
                         Text("Length")
                     }
                     .accessibilityValue(Text("\(Int(chordSequenceData.lengthInMinutes)) minutes"))

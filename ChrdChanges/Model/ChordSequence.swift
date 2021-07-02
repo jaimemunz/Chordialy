@@ -13,13 +13,15 @@ struct ChordSequence: Identifiable {
     var chordSequenceMembers: [String]
     var lengthInMinutes: Int
     var color: Color
+    var history: [History]
     
-    init(id: UUID = UUID(), chordSequenceName: String, chordSequenceMembers: [String], lengthInMinutes: Int, color: Color) {
+    init(id: UUID = UUID(), chordSequenceName: String, chordSequenceMembers: [String], lengthInMinutes: Int, color: Color,  history: [History] = []) {
         self.id = id
         self.chordSequenceName = chordSequenceName
         self.chordSequenceMembers = chordSequenceMembers
         self.lengthInMinutes = lengthInMinutes
         self.color = color
+        self.history = history
     }
     
 }

@@ -34,9 +34,9 @@ struct TrainingView: View {
             trainingTimer.startTraining()
         }
         .onDisappear {
-            //print("ContentView disappeared!")
-            print("OnDisappear")
             trainingTimer.stopTraining()
+            let newHistory = History(chordSequenceMembers: sequence.chordSequenceMembers, lengthInMinutes: trainingTimer.secondsElapsed / 60, changeCount: trainingTimer.chordCount)
+            sequence.history.append(newHistory)
         }
     }
 }

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ChordSequencesView: View {
     @Binding var sequences: [ChordSequence]
-    
+    @State private var isPresented = false
+    @State private var newSequenceData = ChordSequence.Data()
     var body: some View {
         List {
             ForEach(sequences) { sequence in
@@ -20,9 +21,23 @@ struct ChordSequencesView: View {
             }
         }
         .navigationTitle("Chord Sequences")
-        .navigationBarItems(trailing: Button(action: {}) {
+        .navigationBarItems(trailing: Button(action: {
+            isPresented = true
+        }) {
             Image(systemName: "plus")
         })
+        .sheet(isPresented: $isPresented){
+            NavigationView {
+                EditView(chordSequenceData: $newSequenceData)
+                    .navigationBarItems(leading: Button("Dismiss") {
+                        isPresented = false
+                    }, trailing: Button("Add") {
+                        let newSequence = ChordSequence(chordSequenceName: newSequenceData.chordSequenceName, chordSequenceMembers: newSequenceData.chordSequenceMembers, lengthInMinutes: Int(newSequenceData.lengthInMinutes), color: newSequenceData.color)
+                        isPresented = false
+                        sequences.append(newSequence)
+                    })
+            }
+        }
     }
     
     private func binding(for sequence: ChordSequence) -> Binding<ChordSequence> {
