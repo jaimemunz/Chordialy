@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChordSequence: Identifiable {
+struct ChordSequence: Identifiable, Codable {
     let id: UUID
     var chordSequenceName: String
     var chordSequenceMembers: [String]

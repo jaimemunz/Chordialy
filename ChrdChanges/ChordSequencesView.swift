@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ChordSequencesView: View {
     @Binding var sequences: [ChordSequence]
+    @Environment(\.scenePhase) private var scenePhase
     @State private var isPresented = false
     @State private var newSequenceData = ChordSequence.Data()
+    let saveAction: () -> Void
     var body: some View {
         List {
             ForEach(sequences) { sequence in
@@ -38,6 +40,9 @@ struct ChordSequencesView: View {
                     })
             }
         }
+        .onChange(of: scenePhase) { phase in
+            if phase == .inactive { saveAction() }
+        }
     }
     
     private func binding(for sequence: ChordSequence) -> Binding<ChordSequence> {
@@ -51,7 +56,7 @@ struct ChordSequencesView: View {
 struct ChordPairsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ChordSequencesView(sequences: .constant(ChordSequence.data))
+            ChordSequencesView(sequences: .constant(ChordSequence.data), saveAction: {})
         }
     }
 }

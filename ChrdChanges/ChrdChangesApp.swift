@@ -8,11 +8,15 @@ import SwiftUI
 
 @main
 struct ChrdChangesApp: App {
-    @State private var sequences = ChordSequence.data
+    @ObservedObject private var data = SequenceData()
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ChordSequencesView(sequences: $sequences)
+                ChordSequencesView(sequences: $data.sequences) {
+                    data.save()
+                }
+            }.onAppear {
+                data.load()
             }.navigationViewStyle(StackNavigationViewStyle()) // needed to suppress warning
         }
     }
