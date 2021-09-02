@@ -18,8 +18,7 @@ struct TrainingView: View {
                 .fill(sequence.color)
             VStack {
                 TrainingHeaderView(secondsElapsed: trainingTimer.secondsElapsed, secondsRemaining: trainingTimer.secondsRemaining, sequenceColor: sequence.color)
-                Circle()
-                    .strokeBorder(lineWidth: 24, antialiased: true)
+                SessionTimerView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord, sessionColor: sequence.color)
                 TrainingFooterView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord, skipAction: trainingTimer.skipChord)
             }
         }
