@@ -18,11 +18,11 @@ struct TrainingView: View {
                 .fill(sequence.color)
             VStack {
                 TrainingHeaderView(secondsElapsed: trainingTimer.secondsElapsed, secondsRemaining: trainingTimer.secondsRemaining, sequenceColor: sequence.color)
-                SessionTimerView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord, sessionColor: sequence.color)
+                SessionTimerView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord,secondsElapsed: trainingTimer.secondsElapsed, secondsRemaining: trainingTimer.secondsRemaining, sessionColor: sequence.color)
                 TrainingFooterView(chords: trainingTimer.chords, activeChord: trainingTimer.activeChord, skipAction: trainingTimer.skipChord)
             }
         }
-        .padding()
+        //.padding()
         .foregroundColor(sequence.color.accessibleFontColor)
         .onAppear {
             trainingTimer.reset(lengthInMinutes: sequence.lengthInMinutes, chordSequenceMembers: sequence.chordSequenceMembers)
